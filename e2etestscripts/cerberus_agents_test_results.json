@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-07-16T06:00:29.476943",
+  "router": "agents.py",
+  "total_tests": 3,
+  "passed": 3,
+  "failed": 0,
+  "results": [
+    {
+      "endpoint": "GET /api/v1/agents/me",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/agents/health",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/agents/heartbeat",
+      "passed": true,
+      "message": ""
+    }
+  ]
+}

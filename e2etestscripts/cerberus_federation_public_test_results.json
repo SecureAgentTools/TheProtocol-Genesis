@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-07-16T06:00:46.551123",
+  "router": "federation_public.py",
+  "total_tests": 3,
+  "passed": 3,
+  "failed": 0,
+  "results": [
+    {
+      "endpoint": "GET /api/v1/federation/health-check",
+      "passed": true,
+      "message": "Service degraded (503) - database unhealthy"
+    },
+    {
+      "endpoint": "GET /api/v1/federation/info",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/federation/info (no auth)",
+      "passed": true,
+      "message": "Public endpoint accessible without authentication"
+    }
+  ]
+}

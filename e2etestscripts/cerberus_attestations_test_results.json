@@ -1,0 +1,59 @@
+{
+  "timestamp": "2025-07-16T06:00:34.272132",
+  "router": "attestations.py",
+  "total_tests": 10,
+  "passed": 10,
+  "failed": 0,
+  "results": [
+    {
+      "endpoint": "GET /api/v1/attestations/health",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/attestations/submit (valid proof)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/attestations/submit (invalid proof - expected failure)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/attestations/submit (identity_verification)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/attestations/submit (balance_proof)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/attestations/submit (reputation_score)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/attestations/submit (missing circuit_id - validation)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/attestations/submit (missing proof_data - validation)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/attestations/submit (missing public_inputs - validation)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/attestations/submit (empty body - validation)",
+      "passed": true,
+      "message": ""
+    }
+  ]
+}

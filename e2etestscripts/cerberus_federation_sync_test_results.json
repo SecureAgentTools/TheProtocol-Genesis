@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-07-16T06:00:43.102229",
+  "router": "federation_sync.py",
+  "total_tests": 4,
+  "passed": 4,
+  "failed": 0,
+  "results": [
+    {
+      "endpoint": "GET /api/v1/federation/peers",
+      "passed": true,
+      "message": "Auth required (expected)"
+    },
+    {
+      "endpoint": "GET /api/v1/federation/agent-cards",
+      "passed": true,
+      "message": "Auth required (expected)"
+    },
+    {
+      "endpoint": "POST /api/v1/federation/sync-request",
+      "passed": true,
+      "message": "Auth required (expected)"
+    },
+    {
+      "endpoint": "GET /api/v1/federation/sync-status",
+      "passed": true,
+      "message": "Auth required (expected)"
+    }
+  ]
+}

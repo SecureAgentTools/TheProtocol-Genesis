@@ -1,0 +1,90 @@
+{
+  "timestamp": "2025-07-16T06:00:35.130613",
+  "router": "contracts.py",
+  "total_tests": 16,
+  "passed": 16,
+  "failed": 0,
+  "results": [
+    {
+      "endpoint": "POST /api/v1/contracts",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/contracts/21",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/contracts/99999 (404 expected)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/contracts",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/contracts?limit=5",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/contracts/21/accept",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/contracts/21/submit",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/contracts/21/approve-completion",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/contracts/agent/did:cos:cerberus-client-agent",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/contracts/agent/did:cos:cerberus-upgrader-agent",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/contracts/agent/did:cos:cerberus-client-agent?role=client",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/contracts/agent/did:cos:cerberus-client-agent?role=upgrader",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/contracts/malpractice",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/contracts (missing required fields - validation)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/contracts (invalid payment amount - validation)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/contracts (invalid acceptance criteria - validation)",
+      "passed": true,
+      "message": ""
+    }
+  ],
+  "test_contract_id": 21
+}

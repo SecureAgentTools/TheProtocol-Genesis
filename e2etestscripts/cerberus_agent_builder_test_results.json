@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-07-16T06:00:45.403168",
+  "router": "agent_builder.py",
+  "total_tests": 4,
+  "passed": 4,
+  "failed": 0,
+  "results": [
+    {
+      "endpoint": "POST /api/v1/agent-builder/generate",
+      "passed": true,
+      "message": "Simple wrapper agent ZIP generated (11 files)"
+    },
+    {
+      "endpoint": "POST /api/v1/agent-builder/generate (ADK)",
+      "passed": true,
+      "message": "ADK agent ZIP generated (12 files)"
+    },
+    {
+      "endpoint": "POST /api/v1/agent-builder/generate (Invalid)",
+      "passed": true,
+      "message": "Correctly rejected invalid agent type"
+    },
+    {
+      "endpoint": "POST /api/v1/agent-builder/generate (No Auth)",
+      "passed": true,
+      "message": "Correctly requires authentication"
+    }
+  ]
+}

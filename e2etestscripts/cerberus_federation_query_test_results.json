@@ -1,0 +1,39 @@
+{
+  "timestamp": "2025-07-16T06:00:47.231891",
+  "router": "federation_query.py",
+  "total_tests": 6,
+  "passed": 6,
+  "failed": 0,
+  "results": [
+    {
+      "endpoint": "POST /internal/federation/query (no auth)",
+      "passed": true,
+      "message": "Correctly requires authentication (422 - missing header)"
+    },
+    {
+      "endpoint": "POST /internal/federation/query (invalid auth)",
+      "passed": true,
+      "message": "Correctly rejects invalid auth format"
+    },
+    {
+      "endpoint": "POST /internal/federation/query (empty token)",
+      "passed": true,
+      "message": "Correctly rejects empty token"
+    },
+    {
+      "endpoint": "POST /internal/federation/query (dummy token)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /internal/federation/query (with search)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /internal/federation/query (with filters)",
+      "passed": true,
+      "message": "Empty results (no matching agents)"
+    }
+  ]
+}

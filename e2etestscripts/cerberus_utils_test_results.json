@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-07-16T06:00:45.903544",
+  "router": "utils.py",
+  "total_tests": 4,
+  "passed": 4,
+  "failed": 0,
+  "results": [
+    {
+      "endpoint": "POST /api/v1/validate-card (valid)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/validate-card (invalid)",
+      "passed": true,
+      "message": "Correctly rejected invalid card"
+    },
+    {
+      "endpoint": "POST /api/v1/validate-card (empty)",
+      "passed": true,
+      "message": "Correctly rejected empty card"
+    },
+    {
+      "endpoint": "POST /api/v1/validate-card (no data)",
+      "passed": true,
+      "message": "Correctly rejected missing card_data"
+    }
+  ]
+}

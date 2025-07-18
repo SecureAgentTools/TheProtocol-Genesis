@@ -1,0 +1,49 @@
+{
+  "timestamp": "2025-07-16T06:00:30.945097",
+  "router": "auth.py",
+  "total_tests": 8,
+  "passed": 8,
+  "failed": 0,
+  "results": [
+    {
+      "endpoint": "POST /api/v1/auth/register",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/auth/login",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/auth/profile",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/auth/logout",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/auth/verify-email",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/auth/agent/token",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/auth/recover-account",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/auth/set-new-password",
+      "passed": true,
+      "message": ""
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "timestamp": "2025-07-16T06:00:36.848751",
+  "router": "developers.py",
+  "total_tests": 9,
+  "passed": 9,
+  "failed": 0,
+  "results": [
+    {
+      "endpoint": "GET /api/v1/developers/me",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/developers/me/apikeys",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/developers/me/apikeys",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "DELETE /api/v1/developers/me/apikeys/18",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/developers/me/agents",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/developers/me/teg-summary",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "GET /api/v1/developers/me/agents/did:cos:nonexistent/balance (404 expected)",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/developers/me/agents/balances",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "endpoint": "POST /api/v1/developers/me/agents/balances (batch limit test)",
+      "passed": true,
+      "message": ""
+    }
+  ]
+}

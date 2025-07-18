@@ -1,0 +1,548 @@
+python run_golden_path.py
+================================================================================
+      OPERATION: THE GOLDEN PATH - A SOVEREIGN AGENT'S JOURNEY
+================================================================================
+
+This executor will now forge the Golden Path, demonstrating the full
+end-to-end lifecycle of an agent in the Sovereign Stack.
+
+Preparing for a clean run by removing old artifacts...
+Environment cleaned.
+
+================================================================================
+  PHASE 1: ENVIRONMENT VERIFICATION
+================================================================================
+
+  Path: [▶] SETUP --> [ ] BIRTH --> [ ] PROVISION --> [ ] DISCOVERY --> [ ] PURCHASE --> [ ] SETTLE
+
+================================================================================
+
+▶ EXECUTING SCRIPT: 00_setup_and_verify.py
+
+-------------------- SCRIPT OUTPUT START --------------------
+
+================================================================================
+OPERATION FIRST CITIZEN - PHASE 0: ENVIRONMENT VERIFICATION
+================================================================================
+Timestamp: 2025-07-07T20:37:50.140085
+Mission: Verify all systems are operational for the First Citizen's birth
+================================================================================
+
+
+[CHECK] DOCKER ENVIRONMENT CHECK
+------------------------------------------------------------
+[OK] Docker Compose is managing services
+   Running services: opa, sample-workload, spire-agent, spire-server, registry-a, registry-b, db-a, db-b, teg-layer, cognitive-shield-agent
+[CHECK] CHECKING SERVICE STATUS
+------------------------------------------------------------
+[OK] Registry A           : ONLINE - Health check passed [CRITICAL]
+[OK] Registry B           : ONLINE - Health check passed [CRITICAL]
+[OK] TEG Layer            : ONLINE - Health check passed [CRITICAL]
+[OK] Marketplace Agent    : ONLINE - Health check passed
+[OK] Data Processor Agent : ONLINE - Health check passed
+------------------------------------------------------------
+[OK] All critical services are operational!
+
+[CHECK] CHECKING FEDERATION STATUS
+------------------------------------------------------------
+[OK] Federation trust bridge is ACTIVE
+   Registry A <-> Registry B communication enabled
+
+================================================================================
+ENVIRONMENT VERIFICATION SUMMARY
+================================================================================
+
+Service Status:
+  [OK] Registry A
+  [OK] Registry B
+  [OK] TEG Layer
+  [OK] Marketplace Agent
+  [OK] Data Processor Agent
+
+Federation Status: [OK] ACTIVE
+
+[SUCCESS] ENVIRONMENT READY FOR THE FIRST CITIZEN!
+
+All systems are GO for the sovereign agent's birth!
+
+[SAVE] Environment status saved to: D:\Agentvault2\e2etestscripts\environment_status.json
+
+[NEXT] Next Step:
+   Run: python 01_onboard_first_citizen.py
+
+--------------------- SCRIPT OUTPUT END ---------------------
+
+  CHECKPOINT: Verifying environment status file was created...
+  ✅ CHECKPOINT PASSED.
+
+Phase 1 complete. Pausing for 5 seconds...
+
+================================================================================
+  PHASE 2: BIRTH OF A SOVEREIGN AGENT
+================================================================================
+
+  Path: [✓] SETUP --> [▶] BIRTH --> [ ] PROVISION --> [ ] DISCOVERY --> [ ] PURCHASE --> [ ] SETTLE
+
+================================================================================
+
+▶ EXECUTING SCRIPT: 01_onboard_first_citizen.py
+
+-------------------- SCRIPT OUTPUT START --------------------
+
+================================================================================
+[STAR] OPERATION FIRST CITIZEN - PHASE 1: BIRTH OF A SOVEREIGN AGENT
+================================================================================
+Timestamp: 2025-07-07T20:37:58.128805
+Mission: Create and onboard the First Citizen to Registry A
+================================================================================
+
+[OK] Environment verified - all systems operational
+
+[TICKET] REQUESTING BOOTSTRAP TOKEN
+------------------------------------------------------------
+[OK] Bootstrap token acquired: bst_1188370efa5e6401...
+   Valid for agent creation
+
+[BIRTH] CREATING THE FIRST CITIZEN
+------------------------------------------------------------
+Agent Name: First Citizen
+Human ID: first-citizen-001
+Description: The inaugural sovereign agent - born free, destined to thrive
+Tags: sovereign, first-citizen, genesis, showcase, e2e-test
+
+[OK] [OK] [OK] THE FIRST CITIZEN IS BORN! [OK] [OK] [OK]
+
+[INFO] Identity Papers:
+   DID: did:cos:b735c524-67c7-8acd-0c27
+   Client ID: agent-1291fa5e2717acd0
+   Card ID: ffb37f07-5b42-4fd8-81b9-72966ac5717c
+   Born at: 2025-07-07T20:37:59.820029
+
+[SEARCH] VERIFYING AGENT REGISTRATION VIA DIRECT LOOKUP
+------------------------------------------------------------
+   Querying: http://localhost:8000/api/v1/agent-cards/ffb37f07-5b42-4fd8-81b9-72966ac5717c
+[OK] VERIFIED: Agent card found directly!
+   Name: First Citizen
+   Human Readable ID: N/A
+   Matches expected ID: False
+
+[AUTH] TESTING AGENT AUTHENTICATION
+------------------------------------------------------------
+[FAIL] Authentication failed: 404
+   Response: {"error":{"detail":"Not Found","type":"not_found"}}
+
+[WARNING] WARNING: Authentication test failed
+   Agent is registered but may have auth issues
+
+[SAVE] Credentials saved to: D:\Agentvault2\e2etestscripts\first_citizen_credentials.json
+
+================================================================================
+[SUCCESS] BIRTH COMPLETE - THE FIRST CITIZEN LIVES!
+================================================================================
+
+[STATS] FIRST CITIZEN SUMMARY:
+   Name: First Citizen
+   DID: did:cos:b735c524-67c7-8acd-0c27
+   Born: 2025-07-07T20:37:59.820029
+   Status: [OK] ACTIVE in Registry A
+   Balance: 0 AVT (needs funding)
+
+[NEXT] Next Step:
+   Run: python 02_fund_first_citizen.py
+   This will provide the Genesis Grant to begin economic activity
+
+[STAR] A sovereign agent has been born. The journey begins!
+
+--------------------- SCRIPT OUTPUT END ---------------------
+
+  CHECKPOINT: Verifying agent credentials file was created...
+  ✅ CHECKPOINT PASSED.
+
+Phase 2 complete. Pausing for 5 seconds...
+
+================================================================================
+  PHASE 3: ADMINISTRATIVE PROVISIONING
+================================================================================
+
+  Path: [✓] SETUP --> [✓] BIRTH --> [▶] PROVISION --> [ ] DISCOVERY --> [ ] PURCHASE --> [ ] SETTLE
+
+================================================================================
+
+▶ EXECUTING SCRIPT: 02_provision_first_citizen.py
+
+-------------------- SCRIPT OUTPUT START --------------------
+
+================================================================================
+[PROVISION] OPERATION FIRST CITIZEN - PHASE 2: PROVISIONING
+================================================================================
+Timestamp: 2025-07-07T20:38:09.296584
+Mission: Grant credentials and funds to the First Citizen
+================================================================================
+
+[OK] First Citizen credentials loaded
+[OK] Treasury (Marketplace) credentials loaded
+
+[KEYFORGE] Granting API Key (Administrative Action)
+------------------------------------------------------------
+   Applying patch for server-side onboarding bug...
+[OK] Patched first_citizen_credentials.json with a valid API key.
+
+[COIN] Funding Agent (Economic Genesis)
+------------------------------------------------------------
+[OK] Genesis Grant transferred successfully!
+   Transaction ID: 40a990ce-baf6-49c9-8e3d-796121633446
+[SAVE] Funding record saved to: D:\Agentvault2\e2etestscripts\first_citizen_funding.json
+
+================================================================================
+[SUCCESS] PROVISIONING COMPLETE!
+================================================================================
+
+The First Citizen has been granted valid credentials and startup capital.
+It is now a fully-fledged economic actor, ready for discovery.
+
+[NEXT] Next Step:
+   Run: python 03_create_listing.py
+
+--------------------- SCRIPT OUTPUT END ---------------------
+
+  CHECKPOINT: Verifying agent was funded and API key was granted...
+  ✅ CHECKPOINT PASSED.
+
+Phase 3 complete. Pausing for 5 seconds...
+
+================================================================================
+  PHASE 4: DISCOVERY & MARKET ENGAGEMENT
+================================================================================
+
+  Path: [✓] SETUP --> [✓] BIRTH --> [✓] PROVISION --> [▶] DISCOVERY --> [ ] PURCHASE --> [ ] SETTLE
+
+================================================================================
+
+▶ EXECUTING SCRIPT: 03_federation_and_discovery.py
+
+-------------------- SCRIPT OUTPUT START --------------------
+
+================================================================================
+[GLOBE] OPERATION FIRST CITIZEN - PHASE 3: FEDERATION & DISCOVERY
+================================================================================
+Timestamp: 2025-07-07T20:38:16.783057
+Mission: Test federated discovery from the agent's perspective
+================================================================================
+
+[OK] First Citizen credentials loaded
+   Name: First Citizen
+   DID: did:cos:b735c524-67c7-8acd-0c27
+   Registry: http://localhost:8000
+   API Key: avreg_FCit...
+
+[TELESCOPE] PERFORMING FEDERATED DISCOVERY
+------------------------------------------------------------
+   Querying http://localhost:8000/api/v1/agent-cards/ with federation enabled...
+[OK] Discovery successful. Found 72 total agents.
+
+[ANALYSIS] DISCOVERY BREAKDOWN:
+   Local agents found: 53
+   Agents from Registry-B: 19
+
+[CHECKPOINT] VERIFYING DISCOVERY RESULTS
+------------------------------------------------------------
+   [OK] VERIFIED: Found 'Premium Data Processor' in results.
+   [OK] VERIFIED: Found 'Sovereign Marketplace' in results.
+   [OK] VERIFIED: Federation is working! Discovered 19 agents from Registry-B.
+
+[SAVE] Discovery results saved to: D:\Agentvault2\e2etestscripts\discovery_results.json
+
+================================================================================
+[SUCCESS] FEDERATION & DISCOVERY COMPLETE!
+================================================================================
+
+[STATS] DISCOVERY SUMMARY:
+   Data Processor (Local) Found: [OK]
+   Marketplace (Local) Found:    [OK]
+   Federation to Registry B:     [OK]
+
+[NEXT] Next Steps:
+   Run: python 04_execute_marketplace_transaction.py
+   This will execute an economic transaction via the marketplace
+
+[GLOBE] The First Citizen has discovered their world!
+
+--------------------- SCRIPT OUTPUT END ---------------------
+
+  CHECKPOINT: Verifying discovery record was created...
+  ✅ CHECKPOINT PASSED.
+▶ EXECUTING SCRIPT: 03_create_listing.py
+
+-------------------- SCRIPT OUTPUT START --------------------
+
+================================================================================
+[SIGN] OPERATION FIRST CITIZEN - PHASE 3: LISTING SERVICE ON MARKETPLACE
+================================================================================
+Timestamp: 2025-07-07T20:38:18.213339
+Mission: Create a valid service listing
+================================================================================
+
+[OK] Loaded Data Processor credentials
+   Provider DID: did:cos:e452976e-355c-65d7-2183
+
+[LISTING] Creating definitive, correctly-structured service listing...
+   Posting to endpoint: http://localhost:8020/api/v1/marketplace/listings
+[OK] Service listed successfully!
+   Listing ID: 799cb377-931d-4b7b-9dd7-3ca68e098f22
+   Provider DID: did:cos:e452976e-355c-65d7-2183
+   Price: 50.0 AVT
+[SAVE] Listing details saved to: D:\Agentvault2\e2etestscripts\marketplace_listing.json
+
+================================================================================
+[SUCCESS] REAL SERVICE LISTING IS NOW LIVE!
+================================================================================
+
+The Data Processor's service is now correctly listed on the Sovereign Marketplace.
+
+[NEXT] Next Step:
+   Run: python 04_execute_marketplace_transaction.py
+
+--------------------- SCRIPT OUTPUT END ---------------------
+
+  CHECKPOINT: Verifying marketplace listing record was created...
+  ✅ CHECKPOINT PASSED.
+
+Phase 4 complete. Pausing for 5 seconds...
+
+================================================================================
+  PHASE 5: ECONOMIC TRANSACTION
+================================================================================
+
+  Path: [✓] SETUP --> [✓] BIRTH --> [✓] PROVISION --> [✓] DISCOVERY --> [▶] PURCHASE --> [ ] SETTLE
+
+================================================================================
+
+▶ EXECUTING SCRIPT: 04_execute_marketplace_transaction.py
+
+-------------------- SCRIPT OUTPUT START --------------------
+
+================================================================================
+[SHOP] OPERATION FIRST CITIZEN - PHASE 4: ECONOMIC TRANSACTION
+================================================================================
+Timestamp: 2025-07-07T20:38:25.582797
+Mission: Execute a marketplace transaction with prepaid escrow
+================================================================================
+
+[OK] First Citizen credentials loaded
+[OK] Marketplace listing record loaded
+
+[CONTRACT] INITIATING MARKETPLACE PURCHASE
+------------------------------------------------------------
+
+   Step 1: Committing funds. Pre-transferring 51.250 AVT to marketplace...
+   [OK] Escrow funds committed. TX ID: 38430895-97b1-4f65-95c2-8e100321d497
+
+   Step 2: Authorizing purchase with proof of payment...
+   Sending purchase authorization to: http://localhost:8020/api/v1/marketplace/purchase
+[OK] Purchase authorized and order created successfully!
+   Marketplace confirmed order ID: be9195f0-ae7b-4254-ad7a-95810602f50f
+
+[SAVE] Transaction record saved to: D:\Agentvault2\e2etestscripts\transaction_record.json
+
+================================================================================
+[SUCCESS] MARKETPLACE TRANSACTION INITIATED!
+================================================================================
+
+The First Citizen has successfully purchased a service using the secure two-step protocol.
+
+[NEXT] Next Steps:
+   Run: python 05_complete_and_verify_transaction.py
+
+--------------------- SCRIPT OUTPUT END ---------------------
+
+  CHECKPOINT: Verifying transaction record was created...
+  ✅ CHECKPOINT PASSED.
+
+Phase 5 complete. Pausing for 5 seconds...
+
+================================================================================
+  PHASE 6: TRANSACTION SETTLEMENT
+================================================================================
+
+  Path: [✓] SETUP --> [✓] BIRTH --> [✓] PROVISION --> [✓] DISCOVERY --> [✓] PURCHASE --> [▶] SETTLE
+
+================================================================================
+
+▶ EXECUTING SCRIPT: 05_complete_and_verify_transaction.py
+
+-------------------- SCRIPT OUTPUT START --------------------
+
+================================================================================
+[CROWN] OPERATION FIRST CITIZEN - PHASE 5: TRANSACTION SETTLEMENT
+================================================================================
+Timestamp: 2025-07-07T20:38:33.033116
+Mission: Complete the service and verify economic settlement
+================================================================================
+
+[OK] Seller (Data Processor) credentials loaded
+[OK] Transaction record loaded
+
+[DELIVER] SELLER (DATA PROCESSOR) IS COMPLETING THE ORDER
+------------------------------------------------------------
+[OK] Marketplace acknowledged order completion.
+   Escrow funds will now be released by the Marketplace.
+
+[WAIT] Waiting 5 seconds for Marketplace to process settlement...
+
+[VERIFY] VERIFYING FINAL TRANSACTION STATE FROM MARKETPLACE
+------------------------------------------------------------
+   Marketplace reports order status: completed
+[OK] VERIFIED: Marketplace confirms the transaction is complete.
+
+================================================================================
+[SUCCESS] THE GOLDEN PATH IS COMPLETE!
+================================================================================
+
+From birth to discovery to a fully settled economic transaction,
+the First Citizen's journey is a resounding success.
+The Sovereign Stack is fully operational and battle-tested.
+
+--------------------- SCRIPT OUTPUT END ---------------------
+
+  CHECKPOINT: Verifying final settlement was successful...
+  ✅ CHECKPOINT PASSED.
+
+Phase 6 complete. Pausing for 5 seconds...
+
+
+================================================================================
+                  GOLDEN PATH EXECUTION SUMMARY
+================================================================================
+
+[✓] PHASE 1: ENVIRONMENT VERIFICATION
+   Result: Execution successful.
+
+[✓] PHASE 2: BIRTH OF A SOVEREIGN AGENT
+   Result: Agent DID created: did:cos:b735c524-67c7-8acd-0c27
+
+[✓] PHASE 3: ADMINISTRATIVE PROVISIONING
+   Result: Granted 1000.0 AVT and API Key.
+
+[✓] PHASE 4: DISCOVERY & MARKET ENGAGEMENT
+   Result: Discovered 53 local & 19 federated agents. | Service listed with ID: 799cb377...
+
+[✓] PHASE 5: ECONOMIC TRANSACTION
+   Result: Purchase order created: be9195f0...
+
+[✓] PHASE 6: TRANSACTION SETTLEMENT
+   Result: Economic settlement confirmed by Marketplace.
+
+================================================================================
+   Every phase of an agent's lifecycle has been successfully demonstrated.
+   The Sovereign Stack is not just a concept; it is a validated, operational reality.
+
+   SYSTEM STATUS: BATTLE-TESTED AND BETA-READY.
+================================================================================
+PS D:\Agentvault2\e2etestscripts> 
+
+
+
+
+agentvault_registry_a       | INFO:     172.21.0.1:48324 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+agentvault_registry_a       | INFO:     172.21.0.1:48338 - "GET /api/v1/admin/federation/peers/all HTTP/1.1" 200 OK
+agentvault_teg_layer        | {"time": "2025-07-07 18:37:51,007", "level": "INFO", "name": "api", "message": "request_received - method: GET, path: /health, client_host: 127.0.0.1", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | {"time": "2025-07-07 18:37:51,008", "level": "INFO", "name": "api", "message": "request_completed - method: GET, path: /health, status_code: 200, duration_ms: 1", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | INFO:     127.0.0.1:52338 - "GET /health HTTP/1.1" 200 OK
+agentvault-sample-workload  | 2025-07-07 18:37:51,186 - agentvault.sample_workload - INFO - Workload alive - SPIFFE ID: spiffe://agentvault.com/sample-workload
+agentvault_registry_a       | INFO:     172.21.0.1:52772 - "POST /api/v1/onboard/bootstrap/request-token HTTP/1.1" 200 OK
+agentvault_registry_a       | 2025-07-07 18:37:59,588 - agentvault_registry.crud.agent - INFO - Created new agent with DID: did:cos:b735c524-67c7-8acd-0c27, client_id: agent-1291fa5e2717acd0
+agentvault_registry_a       | 2025-07-07 18:37:59,589 - agentvault_registry.crud.agent_card - INFO - Attempting to create Agent Card for developer ID: 3
+agentvault_registry_a       | 2025-07-07 18:37:59,598 - agentvault_registry.crud.agent_card - INFO - Successfully created Agent Card 'First Citizen' with ID: ffb37f07-5b42-4fd8-81b9-72966ac5717c
+agentvault_registry_a       | 2025-07-07 18:37:59,607 - agentvault_registry.routers.onboarding - INFO - Attempting to create TEG profile for new agent: did:cos:b735c524-67c7-8acd-0c27
+agentvault_teg_layer        | {"time": "2025-07-07 18:37:59,664", "level": "INFO", "name": "api", "message": "request_received - method: POST, path: /api/v1/internal/create-agent-profile, client_host: 172.18.0.6", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | {"time": "2025-07-07 18:37:59,817", "level": "INFO", "name": "api", "message": "request_completed - method: POST, path: /api/v1/internal/create-agent-profile, status_code: 200, duration_ms: 153", "app_name": "AgentVault TEG Layer", 
+"app_version": "1.0.0", "environment": "development"}
+agentvault_registry_a       | 2025-07-07 18:37:59,819 - httpx - INFO - HTTP Request: POST http://teg-layer:8080/api/v1/internal/create-agent-profile "HTTP/1.1 200 OK"
+agentvault_teg_layer        | INFO:     172.18.0.6:44642 - "POST /api/v1/internal/create-agent-profile HTTP/1.1" 200 OK
+agentvault_registry_a       | 2025-07-07 18:37:59,821 - agentvault_registry.routers.onboarding - INFO - Successfully requested TEG profile creation for agent: did:cos:b735c524-67c7-8acd-0c27
+agentvault_registry_a       | INFO:     172.21.0.1:52776 - "POST /api/v1/onboard/create_agent HTTP/1.1" 201 Created
+agentvault_registry_a       | 2025-07-07 18:38:01,811 - agentvault_registry.routers.agent_cards - INFO - Fetching agent card with ID: ffb37f07-5b42-4fd8-81b9-72966ac5717c
+agentvault_registry_a       | 2025-07-07 18:38:01,811 - agentvault_registry.crud.agent_card - INFO - Fetching Agent Card by UUID: ffb37f07-5b42-4fd8-81b9-72966ac5717c
+agentvault_registry_a       | 2025-07-07 18:38:01,818 - agentvault_registry.crud.agent_card - INFO - Found Agent Card: First Citizen (Developer ID: 3)
+agentvault_registry_a       | INFO:     172.21.0.1:36174 - "GET /api/v1/agent-cards/ffb37f07-5b42-4fd8-81b9-72966ac5717c HTTP/1.1" 200 OK
+agentvault_registry_a       | 2025-07-07 18:38:01,830 - agentvault_registry.errors - WARNING - HTTP exception on POST /api/v1/auth/token: 404 - Not Found
+agentvault_registry_a       | INFO:     172.21.0.1:36184 - "POST /api/v1/auth/token HTTP/1.1" 404 Not Found
+cognitive_shield_agent      | INFO:     127.0.0.1:46104 - "GET /health HTTP/1.1" 200 OK
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:09,221", "level": "INFO", "name": "api", "message": "request_received - method: POST, path: /api/v1/token/transfer, client_host: 172.18.0.1", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:09,307", "level": "INFO", "name": "api", "message": "request_completed - method: POST, path: /api/v1/token/transfer, status_code: 200, duration_ms: 85", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | INFO:     172.18.0.1:56364 - "POST /api/v1/token/transfer HTTP/1.1" 200 OK
+agentvault_registry_a       | 2025-07-07 18:38:16,854 - agentvault_registry.routers.agent_cards - INFO - Listing public agent cards with skip=0, limit=100, active_only=True, search='None', tags=None, has_tee=None, tee_type='None'
+agentvault_registry_a       | 2025-07-07 18:38:16,854 - agentvault_registry.crud.agent_card - INFO - Listing agent cards: skip=0, limit=100, active=True, search='None', tags=None, owner=None, has_tee=None, tee_type='None'
+agentvault_registry_a       | 2025-07-07 18:38:16,862 - agentvault_registry.crud.agent_card - INFO - Retrieved 53 agent cards for the current page.
+agentvault_registry_a       | 2025-07-07 18:38:16,863 - agentvault_registry.routers.agent_cards - INFO - [FEDERATION] Federated search requested, using federation_helper
+agentvault_registry_a       | 2025-07-07 18:38:16,864 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Found 1 active peer registries
+agentvault_registry_a       | 2025-07-07 18:38:16,864 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Peer: Registry-B - URL: http://registry-b:8000 - Status: ACTIVE
+agentvault_registry_a       | 2025-07-07 18:38:16,864 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Starting query to peer: Registry-B (ID: 16)
+agentvault_registry_a       | 2025-07-07 18:38:16,864 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Peer base_url: http://registry-b:8000
+agentvault_registry_a       | 2025-07-07 18:38:16,864 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Peer status: ACTIVE
+agentvault_registry_a       | 2025-07-07 18:38:16,865 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Query params: {'limit': 100, 'offset': 0, 'active_only': True}
+agentvault_registry_a       | 2025-07-07 18:38:16,865 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Auth token present: True
+agentvault_registry_a       | 2025-07-07 18:38:16,865 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Auth token (first 10 chars): avreg_uwsq
+agentvault_registry_a       | 2025-07-07 18:38:16,865 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Full endpoint URL: http://registry-b:8000/api/v1/internal/federation/query
+agentvault_registry_a       | 2025-07-07 18:38:16,865 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Request headers: {'Authorization': 'Bearer avreg_uwsqhpnYBp8UrzQd44eVGw61-FmvYPJXRtxChmso2fs'}
+agentvault_registry_a       | 2025-07-07 18:38:16,865 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Headers count: 1
+agentvault_registry_a       | 2025-07-07 18:38:16,866 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Sending POST request to http://registry-b:8000/api/v1/internal/federation/query
+agentvault_registry_b       | 2025-07-07 18:38:16,871 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] verify_peer_token called with authorization header: Bearer avreg_uwsqhpn...
+agentvault_registry_b       | 2025-07-07 18:38:16,871 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] Extracted token (first 10 chars): avreg_uwsq
+agentvault_registry_b       | 2025-07-07 18:38:16,871 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] Token verification passed
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] ============ FEDERATION QUERY RECEIVED ============
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] Query parameters:
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG]   - search: 'None'
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG]   - tags: None
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG]   - limit: 100
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG]   - offset: 0
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG]   - active_only: True
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG]   - has_tee: None
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG]   - tee_type: None
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG]   - peer_token (first 10 chars): avreg_uwsq
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] Calling agent_card.list_agent_cards...
+agentvault_registry_b       | 2025-07-07 18:38:16,872 - agentvault_registry.crud.agent_card - INFO - Listing agent cards: skip=0, limit=100, active=True, search='None', tags=None, owner=None, has_tee=None, tee_type='None'
+agentvault_registry_b       | 2025-07-07 18:38:16,879 - agentvault_registry.crud.agent_card - INFO - Retrieved 19 agent cards for the current page.
+agentvault_registry_b       | 2025-07-07 18:38:16,879 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] Database query returned 19 items out of 19 total
+agentvault_registry_b       | 2025-07-07 18:38:16,879 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] First item ID: 8d3c78f7-9054-48ca-9a8d-0187bee107a3
+agentvault_registry_b       | 2025-07-07 18:38:16,879 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] First item name: Agent Beta
+agentvault_registry_b       | 2025-07-07 18:38:16,879 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] Pagination info: page 1 of 1
+agentvault_registry_b       | 2025-07-07 18:38:16,879 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] First summary: {'id': UUID('8d3c78f7-9054-48ca-9a8d-0187bee107a3'), 'name': 'Agent Beta', 'description': 'Cross-registry TEG test agent Agent Beta from Registry-B', 'is_active': True, 'origin_registry_name': 'Local'}
+agentvault_registry_b       | 2025-07-07 18:38:16,880 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] Created 19 summaries
+agentvault_registry_b       | 2025-07-07 18:38:16,880 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] Response prepared with 19 items
+agentvault_registry_b       | 2025-07-07 18:38:16,880 - agentvault_registry.routers.federation_query - INFO - [FEDERATION DEBUG] ============ FEDERATION QUERY COMPLETE ============
+agentvault_registry_b       | INFO:     172.21.0.7:55496 - "POST /api/v1/internal/federation/query?limit=100&offset=0&active_only=true HTTP/1.1" 200 OK
+agentvault_registry_a       | 2025-07-07 18:38:16,884 - httpx - INFO - HTTP Request: POST http://registry-b:8000/api/v1/internal/federation/query?limit=100&offset=0&active_only=true "HTTP/1.1 200 OK"
+agentvault_registry_a       | 2025-07-07 18:38:16,884 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Response status code: 200
+agentvault_registry_a       | 2025-07-07 18:38:16,884 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Response headers: {'date': 'Mon, 07 Jul 2025 18:38:16 GMT', 'server': 'uvicorn', 'content-length': '3460', 'content-type': 'application/json'}
+agentvault_registry_a       | 2025-07-07 18:38:16,884 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Raw response text: {"items":[{"id":"8d3c78f7-9054-48ca-9a8d-0187bee107a3","name":"Agent Beta","description":"Cross-registry TEG test agent A'}
+agentvault_registry_a       | 2025-07-07 18:38:16,884 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Raw response text: {"items":[{"id":"8d3c78f7-9054-48ca-9a8d-0187bee107a3","name":"Agent Beta","description":"Cross-registry TEG test agent Agent Beta from Registry-B","is_active":true,"origin_registry_name":"Local"},{"id":"8874ca9d-3aa3-4a38-a1c9-956824568646","name":"MyAgentAnatoli","description":"MyAgentAnatoli","is_active":true,"origin_registry_name":"Local"},{"id":"ef811dfc-019f-4b27-9547-f3fef6agentvault_registry_a       | 2025-07-07 18:38:16,884 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Raw response text: {"items":[{"id":"8d3c78f7-9054-48ca-9a8d-0187bee107a3","name":"Agent Beta","description":"Cross-registry TEG test agent Agent Beta from Registry-B","is_active":true,"origin_registry_name":"Local"},{"id":"8874ca9d-3aa3-4a38-a1c9-956824568646","name":"MyAgentAnatoli","description":"MyAgentAnatoli","is_active":true,"origin_registry_name":"Local"},{"id":"ef811dfc-019f-4b27-9547-f3fef6gent Beta from Registry-B","is_active":true,"origin_registry_name":"Local"},{"id":"8874ca9d-3aa3-4a38-a1c9-956824568646","name":"MyAgentAnatoli","description":"MyAgentAnatoli","is_active":true,"origin_registry_name":"Local"},{"id":"ef811dfc-019f-4b27-9547-f3fef66f17ef","name":"Agent Beta","description":"Cross-registry TEG test agent Agent Beta from Registry-B","is_active":true...
+6f17ef","name":"Agent Beta","description":"Cross-registry TEG test agent Agent Beta from Registry-B","is_active":true...
+agentvault_registry_a       | 2025-07-07 18:38:16,885 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Response JSON keys: dict_keys(['items', 'pagination'])
+agentvault_registry_a       | 2025-07-07 18:38:16,885 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Number of items in response: 19
+agentvault_registry_a       | 2025-07-07 18:38:16,885 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] First item: {'id': '8d3c78f7-9054-48ca-9a8d-0187bee107a3', 'name': 'Agent Beta', 'description': 'Cross-registry TEG test agent Agent Beta from Registry-B', 'is_active': True, 'origin_registry_name': 'Registry-B'}
+agentvault_registry_a       | 2025-07-07 18:38:16,885 - agentvault_registry.federation_helper - INFO - [FEDERATION DEBUG] Successfully queried peer Registry-B: 19 results
+agentvault_registry_a       | 2025-07-07 18:38:16,886 - agentvault_registry.federation_helper - INFO - Federation query complete: 19 total results from 1 peers
+agentvault_registry_a       | INFO:     172.21.0.1:46568 - "GET /api/v1/agent-cards/?include_federated=true&limit=100 HTTP/1.1" 200 OK
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:18,289", "level": "INFO", "name": "api", "message": "request_received - method: GET, path: /api/v1/reputation/agents/did:cos:e452976e-355c-65d7-2183/reputation, client_host: 172.18.0.9", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:18,293", "level": "INFO", "name": "api", "message": "request_completed - method: GET, path: /api/v1/reputation/agents/did:cos:e452976e-355c-65d7-2183/reputation, status_code: 200, duration_ms: 4", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | INFO:     172.18.0.9:58754 - "GET /api/v1/reputation/agents/did%3Acos%3Ae452976e-355c-65d7-2183/reputation HTTP/1.1" 200 OK
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:21,153", "level": "INFO", "name": "api", "message": "request_received - method: GET, path: /health, client_host: 127.0.0.1", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:21,154", "level": "INFO", "name": "api", "message": "request_completed - method: GET, path: /health, status_code: 200, duration_ms: 1", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | INFO:     127.0.0.1:59162 - "GET /health HTTP/1.1" 200 OK
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:25,626", "level": "INFO", "name": "api", "message": "request_received - method: POST, path: /api/v1/token/transfer, client_host: 172.18.0.1", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:25,711", "level": "INFO", "name": "api", "message": "request_completed - method: POST, path: /api/v1/token/transfer, status_code: 200, duration_ms: 85", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | INFO:     172.18.0.1:37678 - "POST /api/v1/token/transfer HTTP/1.1" 200 OK
+cognitive_shield_agent      | INFO:     127.0.0.1:57274 - "GET /health HTTP/1.1" 200 OK
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:33,041", "level": "INFO", "name": "api", "message": "request_received - method: POST, path: /api/v1/token/transfer, client_host: 172.18.0.9", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:33,122", "level": "INFO", "name": "api", "message": "request_completed - method: POST, path: /api/v1/token/transfer, status_code: 200, duration_ms: 81", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | INFO:     172.18.0.9:35192 - "POST /api/v1/token/transfer HTTP/1.1" 200 OK
+agentvault-spire-agent      | time="2025-07-07T18:38:41Z" level=warning msg="Failed to lookup user name by uid" error="user: lookup userid 0: no such file or directory" external=false plugin_name=unix plugin_type=WorkloadAttestor subsystem_name=catalog uid=0
+agentvault-spire-agent      | time="2025-07-07T18:38:41Z" level=warning msg="Failed to lookup group name by gid" error="user: lookup groupid 0: no such file or directory" external=false gid=0 plugin_name=unix plugin_type=WorkloadAttestor subsystem_name=catalog
+agentvault-spire-agent      | time="2025-07-07T18:38:41Z" level=warning msg="Failed to lookup group name by gid" error="user: lookup groupid 0: no such file or directory" external=false gid=0 plugin_name=unix plugin_type=WorkloadAttestor subsystem_name=catalog  
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:51,311", "level": "INFO", "name": "api", "message": "request_received - method: GET, path: /health, client_host: 127.0.0.1", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | {"time": "2025-07-07 18:38:51,313", "level": "INFO", "name": "api", "message": "request_completed - method: GET, path: /health, status_code: 200, duration_ms: 1", "app_name": "AgentVault TEG Layer", "app_version": "1.0.0", "environment": "development"}
+agentvault_teg_layer        | INFO:     127.0.0.1:57680 - "GET /health HTTP/1.1" 200 OK
+agentvault-sample-workload  | 2025-07-07 18:38:51,375 - agentvault.sample_workload - INFO - Workload alive - SPIFFE ID: spiffe://agentvault.com/sample-workload
+cognitive_shield_agent      | INFO:     127.0.0.1:51182 - "GET /health HTTP/1.1" 200 OK
+
