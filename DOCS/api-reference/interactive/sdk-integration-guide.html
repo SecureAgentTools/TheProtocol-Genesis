@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDK Integration Guide - The Protocol</title>
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #ff006e;
+            --background: #0a0e27;
+            --surface: #1a1f3a;
+            --text: #e0e0e0;
+            --success: #00ff88;
+            --error: #ff3366;
+            --warning: #ffaa00;
+            --code-bg: #0d1117;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        h2 {
+            color: var(--primary);
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .intro {
+            background: var(--surface);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .step-container {
+            background: var(--surface);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-number {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: var(--primary);
+            color: var(--background);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .step-content {
+            margin-left: 2rem;
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            margin: 0;
+            color: #e6edf3;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-lang {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--primary);
+            color: var(--background);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .interactive-section {
+            background: var(--surface);
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--background);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            margin: 0.5rem 0;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(255, 0, 110, 0.3);
+        }
+
+        button {
+            background: var(--primary);
+            color: var(--background);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            margin: 0.5rem 0;
+        }
+
+        button:hover {
+            background: var(--secondary);
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .output {
+            background: var(--code-bg);
+            border: 1px solid var(--success);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            min-height: 100px;
+            display: none;
+        }
+
+        .output.show {
+            display: block;
+        }
+
+        .error {
+            color: var(--error);
+            background: rgba(255, 51, 102, 0.1);
+            border: 1px solid var(--error);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .success-msg {
+            color: var(--success);
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--success);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 3.5rem;
+            background: var(--surface);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: var(--background);
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .progress-indicator::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--surface);
+            z-index: 0;
+        }
+
+        .progress-step {
+            background: var(--surface);
+            border: 2px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-step.completed {
+            background: var(--primary);
+            color: var(--background);
+        }
+
+        .highlight {
+            background: rgba(0, 212, 255, 0.2);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SDK Integration Guide</h1>
+        
+        <div class="intro">
+            <p>This interactive guide will walk you through integrating The Protocol SDK into your application. Follow along step-by-step, test code snippets in real-time, and build your first sovereign agent.</p>
+            <p><strong>Time to complete:</strong> 20-30 minutes</p>
+            <p><strong>Prerequisites:</strong> Python 3.8+, Docker, and a running Protocol stack</p>
+        </div>
+
+        <div class="progress-indicator">
+            <div class="progress-step completed" id="progress-1">1</div>
+            <div class="progress-step" id="progress-2">2</div>
+            <div class="progress-step" id="progress-3">3</div>
+            <div class="progress-step" id="progress-4">4</div>
+            <div class="progress-step" id="progress-5">5</div>
+        </div>
+
+        <h2>Step 1: Installation</h2>
+        
+        <div class="step-container">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3>Install the SDK</h3>
+                <p>The Protocol SDK is available as a Python package. Install it using pip:</p>
+                
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <span class="code-lang">bash</span>
+                    <pre>pip install sovereign-sdk</pre>
+                </div>
+                
+                <p>Or add it to your requirements.txt:</p>
+                
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <span class="code-lang">txt</span>
+                    <pre>sovereign-sdk>=1.0.0</pre>
+                </div>
+                
+                <p>For development installations directly from the source:</p>
+                
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <span class="code-lang">bash</span>
+                    <pre>cd D:\Agentvault2
+pip install -e .</pre>
+                </div>
+            </div>
+        </div>
+
+        <h2>Step 2: Basic Setup</h2>
+        
+        <div class="step-container">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3>Initialize the SDK</h3>
+                <p>Create your first SDK instance and connect to a registry:</p>
+                
+                <div class="interactive-section">
+                    <div class="tabs">
+                        <button class="tab active" onclick="showTab('basic', 0)">Basic Setup</button>
+                        <button class="tab" onclick="showTab('basic', 1)">With Authentication</button>
+                        <button class="tab" onclick="showTab('basic', 2)">Federation Setup</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="basic-0">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            <span class="code-lang">python</span>
+                            <pre>from sovereign import SovereignSDK
+
+# Initialize SDK with default local registry
+sdk = SovereignSDK(
+    registry_url="http://localhost:8000",
+    environment="development"
+)
+
+# Check connection
+status = sdk.health_check()
+print(f"Registry status: {status['status']}")</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="basic-1">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            <span class="code-lang">python</span>
+                            <pre>from sovereign import SovereignSDK
+
+# Initialize with authentication
+sdk = SovereignSDK(
+    registry_url="http://localhost:8000",
+    api_key="avreg_eJx7JyZWspw29zO8A_EcsMDsA6_lrL7O6eFwzGaIG6I",
+    environment="production"
+)
+
+# Verify authentication
+agent_list = sdk.list_agents()
+print(f"Found {len(agent_list)} agents")</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="basic-2">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            <span class="code-lang">python</span>
+                            <pre>from sovereign import SovereignSDK
+
+# Initialize with multiple registries
+sdk = SovereignSDK(
+    registry_urls={
+        "primary": "http://localhost:8000",
+        "secondary": "http://localhost:8001"
+    },
+    api_keys={
+        "primary": "avreg_eJx7JyZWspw29zO8A_EcsMDsA6_lrL7O6eFwzGaIG6I",
+        "secondary": "avreg_d2yxb_VO1L9IieWEr4SF6oogMrOdNu2P7T3K5dKOcHk"
+    },
+    enable_federation=True
+)</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Test Your Connection</h3>
+                <input type="text" id="test-registry-url" placeholder="Registry URL (default: http://localhost:8000)" value="http://localhost:8000">
+                <button onclick="testConnection()">Test Connection</button>
+                <div class="output" id="connection-output"></div>
+            </div>
+        </div>
+
+        <h2>Step 3: Create Your First Agent</h2>
+        
+        <div class="step-container">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h3>Agent Registration</h3>
+                <p>Create and register your first agent using the SDK:</p>
+                
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <span class="code-lang">python</span>
+                    <pre>from sovereign import SovereignSDK, AgentCard
+
+# Create an agent card
+agent_card = AgentCard(
+    name="my-compute-agent",
+    version="1.0.0",
+    description="High-performance compute agent",
+    capabilities=["compute", "gpu", "ml-inference"],
+    endpoint="http://my-agent:8080",
+    requirements={
+        "min_stake": 1000,
+        "compute_units": 50
+    },
+    metadata={
+        "author": "developer@example.com",
+        "gpu_model": "RTX 4090",
+        "max_concurrent_jobs": 10
+    }
+)
+
+# Register the agent
+result = sdk.register_agent(agent_card)
+agent_id = result['agent_id']
+print(f"Agent registered with ID: {agent_id}")</pre>
+                </div>
+                
+                <h3>Interactive Agent Builder</h3>
+                <div class="interactive-section">
+                    <input type="text" id="agent-name" placeholder="Agent Name (e.g., my-agent)">
+                    <input type="text" id="agent-version" placeholder="Version (e.g., 1.0.0)" value="1.0.0">
+                    <textarea id="agent-description" placeholder="Agent Description" rows="3"></textarea>
+                    <input type="text" id="agent-capabilities" placeholder="Capabilities (comma-separated)">
+                    <button onclick="generateAgentCode()">Generate Agent Code</button>
+                    <div class="output" id="agent-code-output"></div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Step 4: Economic Features</h2>
+        
+        <div class="step-container">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h3>Working with Tokens</h3>
+                <p>The SDK provides full access to the TEG (Token Economic Graph) layer:</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>Check Balance</h3>
+                        <div class="code-block">
+                            <span class="code-lang">python</span>
+                            <pre>balance = sdk.get_balance(agent_id)
+print(f"Balance: {balance['amount']} TEG")</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>Transfer Tokens</h3>
+                        <div class="code-block">
+                            <span class="code-lang">python</span>
+                            <pre>tx = sdk.transfer_tokens(
+    from_agent=agent_id,
+    to_agent=recipient_id,
+    amount=100,
+    memo="Payment for services"
+)</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>Stake Tokens</h3>
+                        <div class="code-block">
+                            <span class="code-lang">python</span>
+                            <pre>stake = sdk.stake_tokens(
+    agent_id=agent_id,
+    amount=1000,
+    duration_days=30
+)</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Complete Economic Flow Example</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <span class="code-lang">python</span>
+                    <pre>from sovereign import SovereignSDK, TransactionBuilder
+
+# Initialize SDK
+sdk = SovereignSDK(registry_url="http://localhost:8000")
+
+# Create a transaction builder for complex operations
+tx_builder = TransactionBuilder(sdk)
+
+# Build a multi-step transaction
+result = await tx_builder\
+    .check_balance(agent_id)\
+    .require_minimum(1000)\
+    .stake(500, duration_days=30)\
+    .transfer(100, to_agent=service_provider)\
+    .with_memo("Service payment with staking")\
+    .execute()
+
+print(f"Transaction completed: {result['tx_id']}")
+print(f"New balance: {result['final_balance']} TEG")</pre>
+                </div>
+            </div>
+        </div>
+
+        <h2>Step 5: Advanced Features</h2>
+        
+        <div class="step-container">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h3>Federation and Cross-Registry Operations</h3>
+                
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <span class="code-lang">python</span>
+                    <pre># Discover agents across federated registries
+all_agents = sdk.discover_agents(
+    capabilities=["compute", "gpu"],
+    min_stake=1000,
+    include_federated=True
+)
+
+# Execute cross-registry transaction
+cross_tx = sdk.federated_transfer(
+    from_agent=local_agent_id,
+    to_agent=remote_agent_id,
+    to_registry="http://localhost:8001",
+    amount=250
+)</pre>
+                </div>
+                
+                <h3>Event Streaming</h3>
+                
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <span class="code-lang">python</span>
+                    <pre># Subscribe to real-time events
+async def handle_event(event):
+    print(f"Event: {event['type']} - {event['data']}")
+
+# Start event stream
+await sdk.subscribe_events(
+    event_types=["agent.registered", "transfer.completed", "stake.created"],
+    callback=handle_event
+)</pre>
+                </div>
+                
+                <h3>Error Handling and Retries</h3>
+                
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <span class="code-lang">python</span>
+                    <pre>from sovereign import SovereignSDK, SDKError, RetryPolicy
+
+# Configure retry policy
+sdk = SovereignSDK(
+    registry_url="http://localhost:8000",
+    retry_policy=RetryPolicy(
+        max_retries=3,
+        backoff_factor=2,
+        retry_on=[500, 502, 503, 504]
+    )
+)
+
+try:
+    # Attempt operation with automatic retries
+    result = sdk.register_agent(agent_card)
+except SDKError as e:
+    print(f"Operation failed: {e.error_code} - {e.message}")
+    # Handle specific error types
+    if e.error_code == "INSUFFICIENT_STAKE":
+        print("Need more tokens to meet staking requirement")</pre>
+                </div>
+            </div>
+        </div>
+
+        <h2>Complete Example: Building a Service Agent</h2>
+        
+        <div class="interactive-section">
+            <h3>Full Working Example</h3>
+            <p>Here's a complete example of building a service agent that uses all the SDK features:</p>
+            
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                <span class="code-lang">python</span>
+                <pre>import asyncio
+from sovereign import SovereignSDK, AgentCard, ServiceAgent
+
+class DataProcessingAgent(ServiceAgent):
+    """Example agent that processes data for other agents"""
+    
+    def __init__(self, sdk: SovereignSDK):
+        super().__init__(
+            sdk=sdk,
+            name="data-processor",
+            version="1.0.0",
+            capabilities=["data-processing", "analytics", "ml-inference"]
+        )
+        self.processing_fee = 10  # TEG per job
+    
+    async def on_request(self, request):
+        """Handle incoming service requests"""
+        # Verify payment
+        if request.payment < self.processing_fee:
+            return self.error_response("Insufficient payment")
+        
+        # Process the data
+        result = await self.process_data(request.data)
+        
+        # Return result
+        return self.success_response(result)
+    
+    async def process_data(self, data):
+        """Actual data processing logic"""
+        # Your processing logic here
+        return {"processed": True, "items": len(data)}
+
+# Initialize and run the agent
+async def main():
+    # Setup SDK
+    sdk = SovereignSDK(
+        registry_url="http://localhost:8000",
+        api_key="your-api-key"
+    )
+    
+    # Create and register agent
+    agent = DataProcessingAgent(sdk)
+    await agent.register()
+    
+    # Stake tokens to meet requirements
+    await agent.stake(1000, duration_days=30)
+    
+    # Start serving requests
+    print(f"Agent {agent.agent_id} is ready to serve!")
+    await agent.start_serving()
+
+if __name__ == "__main__":
+    asyncio.run(main())</pre>
+            </div>
+            
+            <button onclick="downloadExample()">Download Complete Example</button>
+        </div>
+
+        <h2>Next Steps</h2>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>📚 API Reference</h3>
+                <p>Explore the complete API documentation for all SDK methods and classes.</p>
+                <a href="../index.md"><button>View API Docs</button></a>
+            </div>
+            
+            <div class="feature-card">
+                <h3>🚀 Example Agents</h3>
+                <p>Check out real-world agent implementations using the SDK.</p>
+                <a href="../../developer-guides/agent-examples/"><button>View Examples</button></a>
+            </div>
+            
+            <div class="feature-card">
+                <h3>💬 Community</h3>
+                <p>Join our community for help, discussions, and updates.</p>
+                <button onclick="alert('Community links coming soon!')">Join Community</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update progress as user scrolls
+        window.addEventListener('scroll', function() {
+            const steps = document.querySelectorAll('.step-container');
+            const progress = document.querySelectorAll('.progress-step');
+            
+            steps.forEach((step, index) => {
+                const rect = step.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.75) {
+                    progress[index].classList.add('completed');
+                }
+            });
+        });
+
+        function showTab(group, index) {
+            const tabs = document.querySelectorAll(`#${group}-${index}`).length > 0 ? 
+                        document.querySelectorAll(`.tab`) : 
+                        document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            if (tabs[index]) tabs[index].classList.add('active');
+            if (document.getElementById(`${group}-${index}`)) {
+                document.getElementById(`${group}-${index}`).classList.add('active');
+            }
+        }
+
+        function copyCode(button) {
+            const codeBlock = button.parentElement.querySelector('pre');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        async function testConnection() {
+            const output = document.getElementById('connection-output');
+            const url = document.getElementById('test-registry-url').value || 'http://localhost:8000';
+            
+            output.classList.add('show');
+            output.textContent = 'Testing connection...';
+            
+            try {
+                const response = await fetch(`${url}/health`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    output.innerHTML = `<span style="color: var(--success)">✓ Connection successful!</span>\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    output.innerHTML = `<span style="color: var(--error)">✗ Connection failed</span>\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                output.innerHTML = `<span style="color: var(--error)">✗ Connection error: ${error.message}</span>`;
+            }
+        }
+
+        function generateAgentCode() {
+            const name = document.getElementById('agent-name').value;
+            const version = document.getElementById('agent-version').value;
+            const description = document.getElementById('agent-description').value;
+            const capabilities = document.getElementById('agent-capabilities').value;
+            
+            if (!name || !capabilities) {
+                alert('Please fill in at least name and capabilities');
+                return;
+            }
+            
+            const capList = capabilities.split(',').map(c => `"${c.trim()}"`).join(', ');
+            
+            const code = `from sovereign import SovereignSDK, AgentCard
+
+# Create agent card
+agent_card = AgentCard(
+    name="${name}",
+    version="${version || '1.0.0'}",
+    description="${description || 'My custom agent'}",
+    capabilities=[${capList}],
+    endpoint="http://${name}:8080",
+    metadata={
+        "author": "developer@example.com",
+        "created_with": "SDK Integration Guide"
+    }
+)
+
+# Register the agent
+sdk = SovereignSDK(registry_url="http://localhost:8000")
+result = sdk.register_agent(agent_card)
+print(f"Agent registered: {result['agent_id']}")`;
+            
+            const output = document.getElementById('agent-code-output');
+            output.classList.add('show');
+            output.textContent = code;
+        }
+
+        function downloadExample() {
+            const example = `#!/usr/bin/env python3
+"""
+Complete Data Processing Agent Example
+Generated by The Protocol SDK Integration Guide
+"""
+
+import asyncio
+import logging
+from typing import Dict, Any
+from sovereign import SovereignSDK, AgentCard, ServiceAgent
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+class DataProcessingAgent(ServiceAgent):
+    """Example agent that processes data for other agents"""
+    
+    def __init__(self, sdk: SovereignSDK):
+        super().__init__(
+            sdk=sdk,
+            name="data-processor",
+            version="1.0.0",
+            capabilities=["data-processing", "analytics", "ml-inference"]
+        )
+        self.processing_fee = 10  # TEG per job
+        self.jobs_processed = 0
+    
+    async def on_request(self, request: Dict[str, Any]) -> Dict[str, Any]:
+        """Handle incoming service requests"""
+        logger.info(f"Received request: {request['request_id']}")
+        
+        # Verify payment
+        if request.get('payment', 0) < self.processing_fee:
+            return self.error_response("Insufficient payment", code="PAYMENT_REQUIRED")
+        
+        # Process the data
+        try:
+            result = await self.process_data(request['data'])
+            self.jobs_processed += 1
+            
+            # Log success
+            logger.info(f"Successfully processed job {request['request_id']}")
+            
+            return self.success_response({
+                "result": result,
+                "job_number": self.jobs_processed,
+                "processing_time": "2.3s"
+            })
+        except Exception as e:
+            logger.error(f"Processing failed: {str(e)}")
+            return self.error_response(f"Processing failed: {str(e)}")
+    
+    async def process_data(self, data: Any) -> Dict[str, Any]:
+        """Actual data processing logic"""
+        # Simulate processing delay
+        await asyncio.sleep(2.3)
+        
+        # Your actual processing logic here
+        if isinstance(data, list):
+            return {
+                "processed": True,
+                "items": len(data),
+                "summary": f"Processed {len(data)} items"
+            }
+        else:
+            return {
+                "processed": True,
+                "type": type(data).__name__,
+                "summary": "Data processed successfully"
+            }
+    
+    async def on_startup(self):
+        """Called when agent starts up"""
+        logger.info(f"Data Processing Agent {self.agent_id} starting up...")
+        
+        # Check balance
+        balance = await self.sdk.get_balance(self.agent_id)
+        logger.info(f"Current balance: {balance['amount']} TEG")
+        
+        # Ensure we meet staking requirements
+        staking_info = await self.sdk.get_staking_status(self.agent_id)
+        if staking_info['total_staked'] < 1000:
+            logger.info("Staking tokens to meet requirements...")
+            await self.stake(1000, duration_days=30)
+
+# Initialize and run the agent
+async def main():
+    # Configuration
+    REGISTRY_URL = "http://localhost:8000"
+    API_KEY = "avreg_eJx7JyZWspw29zO8A_EcsMDsA6_lrL7O6eFwzGaIG6I"  # Replace with your key
+    
+    # Setup SDK
+    sdk = SovereignSDK(
+        registry_url=REGISTRY_URL,
+        api_key=API_KEY,
+        environment="development"
+    )
+    
+    # Verify connection
+    health = await sdk.health_check()
+    logger.info(f"Registry health: {health['status']}")
+    
+    # Create and register agent
+    agent = DataProcessingAgent(sdk)
+    
+    try:
+        registration = await agent.register()
+        logger.info(f"Agent registered with ID: {registration['agent_id']}")
+    except Exception as e:
+        logger.error(f"Registration failed: {e}")
+        # Agent might already be registered, try to load it
+        agent.agent_id = "your-existing-agent-id"  # Replace with actual ID
+    
+    # Start serving requests
+    logger.info(f"Agent {agent.agent_id} is ready to serve!")
+    await agent.start_serving(
+        host="0.0.0.0",
+        port=8080,
+        enable_metrics=True
+    )
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        logger.info("Shutting down agent...")
+    except Exception as e:
+        logger.error(f"Agent failed: {e}")
+        raise
+`;
+            
+            const blob = new Blob([example], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'data_processing_agent.py';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

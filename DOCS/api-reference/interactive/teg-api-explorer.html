@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEG Layer API Explorer - The Protocol</title>
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #ff006e;
+            --background: #0a0e27;
+            --surface: #1a1f3a;
+            --text: #e0e0e0;
+            --success: #00ff88;
+            --error: #ff3366;
+            --warning: #ffaa00;
+            --gold: #ffd700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .token-display {
+            background: var(--surface);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .token-balance {
+            font-size: 1.5rem;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .api-section {
+            background: var(--surface);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .method {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .method.get { background: #00aa55; }
+        .method.post { background: #0055ff; }
+        .method.put { background: #ff9900; }
+        .method.delete { background: #ff3366; }
+
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+        }
+
+        .config-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .config-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--background);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(255, 0, 110, 0.3);
+        }
+
+        button {
+            background: var(--primary);
+            color: var(--background);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background: var(--secondary);
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
+            transform: translateY(-2px);
+        }
+
+        button.gold {
+            background: var(--gold);
+            color: var(--background);
+        }
+
+        button.gold:hover {
+            background: #ffed4e;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .response-section {
+            margin-top: 2rem;
+        }
+
+        .response-viewer {
+            background: var(--background);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .response-viewer.success {
+            border-color: var(--success);
+        }
+
+        .response-viewer.error {
+            border-color: var(--error);
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-group.three {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.online {
+            background: var(--success);
+        }
+
+        .status-indicator.offline {
+            background: var(--error);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .transaction-list {
+            max-height: 300px;
+            overflow-y: auto;
+            background: var(--background);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .transaction-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--surface);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .amount-positive {
+            color: var(--success);
+        }
+
+        .amount-negative {
+            color: var(--error);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid var(--surface);
+            border-top: 3px solid var(--gold);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .staking-status {
+            background: var(--background);
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .staking-status h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+        }
+
+        .metric-label {
+            color: var(--text);
+            opacity: 0.8;
+        }
+
+        .metric-value {
+            color: var(--primary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TEG Layer API Explorer</h1>
+        
+        <div class="token-display">
+            <div>
+                <h3>Current Balance</h3>
+                <div class="token-balance" id="currentBalance">Loading...</div>
+            </div>
+            <button class="gold" onclick="refreshBalance()">Refresh Balance</button>
+        </div>
+
+        <div class="config-section">
+            <h2>Configuration</h2>
+            <div class="input-group">
+                <div>
+                    <label for="baseUrl">TEG Layer URL</label>
+                    <select id="baseUrl">
+                        <option value="http://localhost:8000">Registry A (localhost:8000)</option>
+                        <option value="http://localhost:8001">Registry B (localhost:8001)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="authToken">Authorization Token</label>
+                    <input type="text" id="authToken" placeholder="Bearer btok_... or Bearer avreg_..." value="Bearer avreg_eJx7JyZWspw29zO8A_EcsMDsA6_lrL7O6eFwzKaIG6I">
+                </div>
+            </div>
+            <div>
+                <label for="defaultAgentId">Default Agent ID (for testing)</label>
+                <input type="text" id="defaultAgentId" placeholder="agt_123456">
+            </div>
+        </div>
+
+        <!-- Get Balance -->
+        <div class="api-section">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="endpoint-path">/api/teg/balance/{agent_id}</span>
+            </div>
+            <p>Get the token balance for a specific agent.</p>
+            
+            <label for="balanceAgentId">Agent ID</label>
+            <input type="text" id="balanceAgentId" placeholder="Enter agent ID">
+            
+            <button onclick="executeRequest('getBalance')" style="margin-top: 1rem;">Get Balance</button>
+            <div class="loading" id="loading-getBalance">
+                <div class="spinner"></div>
+            </div>
+            <div class="response-section" id="response-getBalance" style="display: none;">
+                <h3>Response</h3>
+                <div class="response-viewer" id="response-viewer-getBalance"></div>
+            </div>
+        </div>
+
+        <!-- Transfer Tokens -->
+        <div class="api-section">
+            <div class="endpoint-header">
+                <span class="method post">POST</span>
+                <span class="endpoint-path">/api/teg/transfer</span>
+            </div>
+            <p>Transfer tokens between agents.</p>
+            
+            <div class="input-group">
+                <div>
+                    <label for="fromAgentId">From Agent ID</label>
+                    <input type="text" id="fromAgentId" placeholder="Sender agent ID">
+                </div>
+                <div>
+                    <label for="toAgentId">To Agent ID</label>
+                    <input type="text" id="toAgentId" placeholder="Recipient agent ID">
+                </div>
+            </div>
+            <div class="input-group">
+                <div>
+                    <label for="transferAmount">Amount</label>
+                    <input type="number" id="transferAmount" placeholder="1000" min="1">
+                </div>
+                <div>
+                    <label for="transferMemo">Memo (optional)</label>
+                    <input type="text" id="transferMemo" placeholder="Payment for services">
+                </div>
+            </div>
+            
+            <button onclick="executeRequest('transfer')" style="margin-top: 1rem;">Send Transfer</button>
+            <div class="loading" id="loading-transfer">
+                <div class="spinner"></div>
+            </div>
+            <div class="response-section" id="response-transfer" style="display: none;">
+                <h3>Response</h3>
+                <div class="response-viewer" id="response-viewer-transfer"></div>
+            </div>
+        </div>
+
+        <!-- Stake Tokens -->
+        <div class="api-section">
+            <div class="endpoint-header">
+                <span class="method post">POST</span>
+                <span class="endpoint-path">/api/teg/stake</span>
+            </div>
+            <p>Stake tokens for an agent to meet requirements or earn rewards.</p>
+            
+            <div class="input-group">
+                <div>
+                    <label for="stakeAgentId">Agent ID</label>
+                    <input type="text" id="stakeAgentId" placeholder="Agent ID to stake for">
+                </div>
+                <div>
+                    <label for="stakeAmount">Stake Amount</label>
+                    <input type="number" id="stakeAmount" placeholder="5000" min="1">
+                </div>
+            </div>
+            <div>
+                <label for="stakeDuration">Stake Duration (days)</label>
+                <input type="number" id="stakeDuration" placeholder="30" min="1">
+            </div>
+            
+            <button onclick="executeRequest('stake')" class="gold" style="margin-top: 1rem;">Stake Tokens</button>
+            <div class="loading" id="loading-stake">
+                <div class="spinner"></div>
+            </div>
+            <div class="response-section" id="response-stake" style="display: none;">
+                <h3>Response</h3>
+                <div class="response-viewer" id="response-viewer-stake"></div>
+            </div>
+        </div>
+
+        <!-- Get Staking Status -->
+        <div class="api-section">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="endpoint-path">/api/teg/staking/{agent_id}</span>
+            </div>
+            <p>Get staking information for an agent.</p>
+            
+            <label for="stakingStatusAgentId">Agent ID</label>
+            <input type="text" id="stakingStatusAgentId" placeholder="Enter agent ID">
+            
+            <button onclick="executeRequest('stakingStatus')" style="margin-top: 1rem;">Get Staking Status</button>
+            <div class="loading" id="loading-stakingStatus">
+                <div class="spinner"></div>
+            </div>
+            <div class="response-section" id="response-stakingStatus" style="display: none;">
+                <h3>Response</h3>
+                <div class="response-viewer" id="response-viewer-stakingStatus"></div>
+                <div class="staking-status" id="staking-details" style="display: none;">
+                    <h4>Staking Details</h4>
+                    <div class="metric">
+                        <span class="metric-label">Total Staked:</span>
+                        <span class="metric-value" id="totalStaked">0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Active Stakes:</span>
+                        <span class="metric-value" id="activeStakes">0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Rewards Earned:</span>
+                        <span class="metric-value" id="rewardsEarned">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="api-section">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="endpoint-path">/api/teg/transactions/{agent_id}</span>
+            </div>
+            <p>Get transaction history for an agent.</p>
+            
+            <div class="input-group">
+                <div>
+                    <label for="txAgentId">Agent ID</label>
+                    <input type="text" id="txAgentId" placeholder="Enter agent ID">
+                </div>
+                <div>
+                    <label for="txLimit">Limit</label>
+                    <input type="number" id="txLimit" placeholder="10" value="10" min="1" max="100">
+                </div>
+            </div>
+            
+            <button onclick="executeRequest('transactions')" style="margin-top: 1rem;">Get Transactions</button>
+            <div class="loading" id="loading-transactions">
+                <div class="spinner"></div>
+            </div>
+            <div class="response-section" id="response-transactions" style="display: none;">
+                <h3>Transaction History</h3>
+                <div class="transaction-list" id="transaction-list">
+                    <!-- Transactions will be populated here -->
+                </div>
+                <div class="response-viewer" id="response-viewer-transactions" style="margin-top: 1rem;"></div>
+            </div>
+        </div>
+
+        <!-- Economic Metrics -->
+        <div class="api-section">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="endpoint-path">/api/teg/metrics</span>
+            </div>
+            <p>Get overall economic metrics for the TEG layer.</p>
+            
+            <button onclick="executeRequest('metrics')">Get Metrics</button>
+            <div class="loading" id="loading-metrics">
+                <div class="spinner"></div>
+            </div>
+            <div class="response-section" id="response-metrics" style="display: none;">
+                <h3>Economic Metrics</h3>
+                <div class="response-viewer" id="response-viewer-metrics"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize on load
+        window.onload = function() {
+            const savedAgentId = localStorage.getItem('tegDefaultAgentId');
+            if (savedAgentId) {
+                document.getElementById('defaultAgentId').value = savedAgentId;
+            }
+            
+            // Set default agent ID in relevant fields
+            document.getElementById('defaultAgentId').addEventListener('change', function(e) {
+                const agentId = e.target.value;
+                localStorage.setItem('tegDefaultAgentId', agentId);
+                
+                // Auto-fill agent ID fields
+                document.getElementById('balanceAgentId').value = agentId;
+                document.getElementById('fromAgentId').value = agentId;
+                document.getElementById('stakeAgentId').value = agentId;
+                document.getElementById('stakingStatusAgentId').value = agentId;
+                document.getElementById('txAgentId').value = agentId;
+                
+                // Refresh balance
+                refreshBalance();
+            });
+        };
+
+        function getBaseUrl() {
+            return document.getElementById('baseUrl').value;
+        }
+
+        function getAuthToken() {
+            return document.getElementById('authToken').value;
+        }
+
+        async function refreshBalance() {
+            const agentId = document.getElementById('defaultAgentId').value;
+            if (!agentId) {
+                document.getElementById('currentBalance').textContent = 'No agent selected';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${getBaseUrl()}/api/teg/balance/${agentId}`, {
+                    headers: {
+                        'Authorization': getAuthToken()
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('currentBalance').textContent = `${data.balance.toLocaleString()} TEG`;
+                } else {
+                    document.getElementById('currentBalance').textContent = 'Error loading balance';
+                }
+            } catch (error) {
+                document.getElementById('currentBalance').textContent = 'Connection error';
+            }
+        }
+
+        async function executeRequest(endpoint) {
+            const loadingEl = document.getElementById(`loading-${endpoint}`);
+            const responseSection = document.getElementById(`response-${endpoint}`);
+            const responseViewer = document.getElementById(`response-viewer-${endpoint}`);
+            
+            loadingEl.classList.add('active');
+            responseSection.style.display = 'none';
+
+            let url, options;
+
+            try {
+                switch(endpoint) {
+                    case 'getBalance':
+                        const balanceAgentId = document.getElementById('balanceAgentId').value;
+                        if (!balanceAgentId) {
+                            alert('Please enter an agent ID');
+                            loadingEl.classList.remove('active');
+                            return;
+                        }
+                        url = `${getBaseUrl()}/api/teg/balance/${balanceAgentId}`;
+                        options = {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': getAuthToken()
+                            }
+                        };
+                        break;
+                    
+                    case 'transfer':
+                        const fromAgent = document.getElementById('fromAgentId').value;
+                        const toAgent = document.getElementById('toAgentId').value;
+                        const amount = document.getElementById('transferAmount').value;
+                        const memo = document.getElementById('transferMemo').value;
+                        
+                        if (!fromAgent || !toAgent || !amount) {
+                            alert('Please fill in all required fields');
+                            loadingEl.classList.remove('active');
+                            return;
+                        }
+                        
+                        url = `${getBaseUrl()}/api/teg/transfer`;
+                        options = {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': getAuthToken(),
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                from_agent_id: fromAgent,
+                                to_agent_id: toAgent,
+                                amount: parseInt(amount),
+                                memo: memo || undefined
+                            })
+                        };
+                        break;
+                    
+                    case 'stake':
+                        const stakeAgentId = document.getElementById('stakeAgentId').value;
+                        const stakeAmount = document.getElementById('stakeAmount').value;
+                        const stakeDuration = document.getElementById('stakeDuration').value;
+                        
+                        if (!stakeAgentId || !stakeAmount || !stakeDuration) {
+                            alert('Please fill in all fields');
+                            loadingEl.classList.remove('active');
+                            return;
+                        }
+                        
+                        url = `${getBaseUrl()}/api/teg/stake`;
+                        options = {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': getAuthToken(),
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                agent_id: stakeAgentId,
+                                amount: parseInt(stakeAmount),
+                                duration_days: parseInt(stakeDuration)
+                            })
+                        };
+                        break;
+                    
+                    case 'stakingStatus':
+                        const stakingAgentId = document.getElementById('stakingStatusAgentId').value;
+                        if (!stakingAgentId) {
+                            alert('Please enter an agent ID');
+                            loadingEl.classList.remove('active');
+                            return;
+                        }
+                        url = `${getBaseUrl()}/api/teg/staking/${stakingAgentId}`;
+                        options = {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': getAuthToken()
+                            }
+                        };
+                        break;
+                    
+                    case 'transactions':
+                        const txAgentId = document.getElementById('txAgentId').value;
+                        const limit = document.getElementById('txLimit').value;
+                        
+                        if (!txAgentId) {
+                            alert('Please enter an agent ID');
+                            loadingEl.classList.remove('active');
+                            return;
+                        }
+                        
+                        url = `${getBaseUrl()}/api/teg/transactions/${txAgentId}?limit=${limit}`;
+                        options = {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': getAuthToken()
+                            }
+                        };
+                        break;
+                    
+                    case 'metrics':
+                        url = `${getBaseUrl()}/api/teg/metrics`;
+                        options = {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': getAuthToken()
+                            }
+                        };
+                        break;
+                }
+
+                const response = await fetch(url, options);
+                const data = await response.json();
+
+                if (response.ok) {
+                    responseViewer.className = 'response-viewer success';
+                    
+                    // Special handling for different endpoints
+                    if (endpoint === 'stakingStatus' && data.stakes) {
+                        document.getElementById('staking-details').style.display = 'block';
+                        document.getElementById('totalStaked').textContent = data.total_staked?.toLocaleString() || '0';
+                        document.getElementById('activeStakes').textContent = data.stakes.length;
+                        document.getElementById('rewardsEarned').textContent = data.total_rewards?.toLocaleString() || '0';
+                    }
+                    
+                    if (endpoint === 'transactions' && data.transactions) {
+                        const txList = document.getElementById('transaction-list');
+                        txList.innerHTML = '';
+                        
+                        data.transactions.forEach(tx => {
+                            const item = document.createElement('div');
+                            item.className = 'transaction-item';
+                            
+                            const isIncoming = tx.to_agent_id === document.getElementById('txAgentId').value;
+                            const amount = isIncoming ? '+' + tx.amount : '-' + tx.amount;
+                            const amountClass = isIncoming ? 'amount-positive' : 'amount-negative';
+                            
+                            item.innerHTML = `
+                                <div>
+                                    <div>${tx.type || 'Transfer'}</div>
+                                    <small>${new Date(tx.timestamp).toLocaleString()}</small>
+                                </div>
+                                <div class="${amountClass}">${amount} TEG</div>
+                            `;
+                            
+                            txList.appendChild(item);
+                        });
+                    }
+                    
+                    // Refresh balance after successful transfer or stake
+                    if (endpoint === 'transfer' || endpoint === 'stake') {
+                        setTimeout(refreshBalance, 1000);
+                    }
+                } else {
+                    responseViewer.className = 'response-viewer error';
+                }
+
+                responseViewer.textContent = JSON.stringify(data, null, 2);
+                responseSection.style.display = 'block';
+                
+            } catch (error) {
+                responseViewer.className = 'response-viewer error';
+                responseViewer.textContent = `Error: ${error.message}`;
+                responseSection.style.display = 'block';
+            } finally {
+                loadingEl.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
